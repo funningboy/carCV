@@ -1,0 +1,9 @@
+
+Ref
+- using color segmentation/background subtraction
+  http://www.prodigyproductionsllc.com/articles/programming/lane-detection-with-opencv-and-c/
+
+- car lane detection
+http://code.google.com/p/opencv-lane-vehicle-track/source/browse/trunk/main.cpp
+
+Lane Detection as (line detection)
