@@ -12,6 +12,7 @@ def detect_car(name, img):
     scale = 2
     scale_factor = 1.05
     min_neighbors = 2
+    gaussian = (5, 5)
 
     def _train_data(cascade_fn='data/haarcascade_cars3.xml'):
         """ training data """
@@ -21,9 +22,14 @@ def detect_car(name, img):
     def _prepare(img, scale=2.0):
         """ prepare analysis proc for alg input """
         ht, wd, dp = img.shape
+        # only care about the horizont block, filter out up high block
+        img = img[:ht/2, :wd]
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # gaussian filter over standard deviation
         gray = cv2.GaussianBlur(gray, (5, 5), 3)
+        # resize img for fast factor tracking
         gray = cv2.resize(gray, (np.int32(np.around(ht/scale)), np.int32(np.around(wd/scale))), interpolation = cv2.INTER_LINEAR)
+        # histogram sample
         gray = cv2.equalizeHist(gray)
         return gray
 
@@ -60,24 +66,54 @@ def detect_car(name, img):
     return name, img
 
 
+class
+
+def update_lane():
+    pass
+
 def detect_lane(name, img):
     """ detect lane """
 
     def _prepare(img):
-        pass
+        """ prepare proc for edge collection """
+        ht, wd, dp = img.shape
+        # only care about the horizont block, filter out up high block
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # gaussian filter over standard deviation
+        gray = cv2.GaussianBlur(gray, (5, 5), 3)
+        # smooth and canny edge detection
+        edge = cv2.Canny(gray, 1, 100, apertureSize=3)
+        return edge
 
-    def _detect():
-        pass
+    def _detectP(edge):
+        """ find correlation edges for piece line detection """
+        lines = cv2.HoughLinesP(edge, 2, np.pi/180, 100, minLineLength=1, maxLineGap=10)
+        if lines is None:
+            return []
+        return lines[0]
 
-    def _draw_lines():
-        pass
+    def _draw_linesP(img, lines, color):
+        """ draw results """
+        for x1, y1, x2, y2 in lines:
+            dx, dy = x2 - x1, y2 - y1
+            angle = np.arctan2(dy, dx) * 180 / np.pi
+            if angle <= 5  and angle >= -5:
+                return img
+            cv2.line(img, (x1,y1), (x2,y2), color, 2)
+        return img
+
+    edge = _prepare(img)
+
+    lines = _detectP(edge)
+    img = _draw_linesP(img, lines, (255, 0, 0))
+    return name, img
 
 def test():
 
     capture = cv2.VideoCapture('data/road.avi')
     while True:
         ret, img = capture.read()
-        name, img = detect_car('car', img)
+#        name, img = detect_car('car', img)
         name, img = detect_lane('lane', img)
         cv2.imshow('tesy', img)
         cv2.waitKey(1)
