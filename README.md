@@ -1,7 +1,7 @@
 ## purpose
 car and lane detection example
 
-[![ScreenShot](https://github.com/funningboy/carCV/blob/master/img/result.png)](http://youtu.be/5SPXba1lwIU)
+[![ScreenShot](https://raw.github.com/funningboy/carCV/master/img/result.png)](http://youtu.be/5SPXba1lwIU)
 
 ##method
 -lane detection
@@ -14,10 +14,10 @@ car and lane detection example
 
 ##how to run it?
 step1. get video source
-`python get_video.py`
+`%python get_video.py`
 
 step2. lane detection
-python detect_lane.py
+`%python detect_lane.py`
 
 step3. car detection
 `%python detect_car.py`
