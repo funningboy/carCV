@@ -1,8 +1,26 @@
+## purpose
+car and lane detection example
+
+<img src='http://youtu.be/5SPXba1lwIU'>
 
 ##method
+-lane detection
+  - houghlines
+  - houghlinesP
+  - fitlines
+
+-car detection
+  - haar cascades
 
 ##how to run it?
+step1. get video source
+>>>python get_video.py
 
+step2. lane detection
+>>> python detect_lane.py
+
+step3. car detection
+>>> python detect_car.py
 
 Ref
 - using color segmentation/background subtraction
